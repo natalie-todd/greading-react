@@ -21,7 +21,17 @@ class App extends Component {
         { name: 'Manu', age: 29 },
         { name: 'Stephanie', age: 27 }
       ]
-    })
+    } )
+  }
+
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: 'Max', age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: 'Stephanie', age: 27 }
+      ]
+    } )
   }
 
   render() {
@@ -31,17 +41,17 @@ class App extends Component {
         <p>This is really working!</p>
         {/* example of alternative to bind sytax - not as good as bind */}
         <button onClick={() => this.switchNameHandler('Maximilian!!')}>Switch Name</button>
-        <Person 
-        name={this.state.persons[0].name} 
-        age={this.state.persons[0].age} />
-        <Person 
-        name={this.state.persons[1].name} 
-        age={this.state.persons[1].age}
-        {/* this is the way to go if you want to change an arg in state - bind */}
-        click={this.switchNameHandler.bind(this,'Max!')} >My Hobbies: Racing</Person>
-        <Person 
-        name={this.state.persons[2].name} 
-        age={this.state.persons[2].age} />
+        <Person
+          name={this.state.persons[0].name}
+          age={this.state.persons[0].age} />
+        <Person
+          name={this.state.persons[1].name}
+          age={this.state.persons[1].age}
+          click={this.switchNameHandler.bind(this, 'Max!')} 
+          changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
+        <Person
+          name={this.state.persons[2].name}
+          age={this.state.persons[2].age} />
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'))
