@@ -44,7 +44,7 @@ class App extends Component {
     };
 
     return (
-      <div>
+      <div className='App'>
         <h1>Hi, I'm a React App</h1>
         <p>This is really working!</p>
         {/* example of alternative to bind sytax - not as good as bind */}
