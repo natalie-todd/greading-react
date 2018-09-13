@@ -13,34 +13,40 @@ class App extends Component {
     showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-    // console.log('Was clicked!');
-    // BAD BAD BAD this.state.persons[0].name = 'Maximilian';
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    })
-  }
+  // switchNameHandler = (newName) => {
+  //   // console.log('Was clicked!');
+  //   // BAD BAD BAD this.state.persons[0].name = 'Maximilian';
+  //   this.setState({
+  //     persons: [
+  //       { name: newName, age: 28 },
+  //       { name: 'Manu', age: 29 },
+  //       { name: 'Stephanie', age: 27 }
+  //     ]
+  //   })
+  // }
 
   nameChangedHandler = (event, id) => {
-    const person = this.state
-    this.setState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    })
+    const personsIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    const person = {
+      ...this.state.persons[personsIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personsIndex] = person;
+
+    this.setState({ persons: persons })
   }
 
-  deletePersonHandler = (personIndex) => {
+  deletePersonHandler = (personsIndex) => {
     const persons = [...this.state.persons];
     //Splice is not best practice. It can lead to unpredictability.
-    persons.splice(personIndex, 1);
-    this.setState({persons: persons})
+    persons.splice(personsIndex, 1);
+    this.setState({persons: persons});
   }
 
   togglePersonsHandler = () => {
