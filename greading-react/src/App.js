@@ -5,11 +5,12 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Manu', age: 29 },
-      { name: 'Stephanie', age: 26 }
+      { id: 'asdfa', name: 'Max', age: 28 },
+      { id: 'asddd', name: 'Manu', age: 29 },
+      { id: 'tgted', name: 'Stephanie', age: 26 }
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -21,17 +22,30 @@ class App extends Component {
         { name: 'Manu', age: 29 },
         { name: 'Stephanie', age: 27 }
       ]
-    } )
+    })
   }
 
-  nameChangedHandler = (event) => {
+  nameChangedHandler = (event, id) => {
+    const person = this.state
     this.setState({
       persons: [
         { name: 'Max', age: 28 },
         { name: event.target.value, age: 29 },
         { name: 'Stephanie', age: 27 }
       ]
-    } )
+    })
+  }
+
+  deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons];
+    //Splice is not best practice. It can lead to unpredictability.
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
+  }
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow })
   }
 
   render() {
@@ -43,28 +57,34 @@ class App extends Component {
       cursor: 'pointer'
     };
 
-    return (
-      <div>
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        {/* example of alternative to bind sytax - not as good as bind */}
-        <button 
-        style={style}
-        onClick={() => this.switchNameHandler('Maximilian!!')}>Switch Name</button>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Max!')} 
-          changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age} />
+    let persons = null;
+
+    if ( this.state.showPersons ) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person 
+            click={() => this.deletePersonHandler(index)}
+            name={person.name}
+            age={person.age} 
+            key={person.id}
+            changed={(event) => this.nameChangedHandler(event, person.id)} />
+          })}
+        </div>
+      )
+    };
+
+  return (
+      <div className = 'App' >
+      <h1>Hi, I'm a React App</h1>
+      <p>This is really working!</p>
+        {/* example of alternative to bind sytax - not as good as bind */ }
+        <button
+          style = { style }
+          onClick = { this.togglePersonsHandler } > Toggle Persons</button>
+          {persons}
       </div>
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'))
   }
 }
 export default App;
