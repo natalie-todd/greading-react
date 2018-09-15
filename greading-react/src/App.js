@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-class App extends Component {
+class App extends Component { 
   state = {
     persons: [
       { id: 'asdfa', name: 'Max', age: 28 },
@@ -10,7 +10,7 @@ class App extends Component {
       { id: 'tgted', name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
-    showPersons: false
+    showPersons: false 
   }
 
   nameChangedHandler = (event, id) => {
