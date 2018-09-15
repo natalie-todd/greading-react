@@ -14,19 +14,20 @@ class App extends Component {
   }
 
   nameChangedHandler = (event, id) => {
+// set variable personsIndex to the ids of state
     const personsIndex = this.state.persons.findIndex(p => {
       return p.id === id;
     });
-
+//set variable person to personsIndices
     const person = {
       ...this.state.persons[personsIndex]
     };
-
+//name portion of state will equal event.target.value
     person.name = event.target.value;
-
+//persons will equal entire state object and the index of persons = person
     const persons = [...this.state.persons];
     persons[personsIndex] = person;
-
+//set the state so persons is the new object in state
     this.setState({ persons: persons })
   }
 
@@ -72,7 +73,6 @@ class App extends Component {
       <div className = 'App' >
       <h1>Hi, I'm a React App</h1>
       <p>This is really working!</p>
-        {/* example of alternative to bind sytax - not as good as bind */ }
         <button
           style = { style }
           onClick = { this.togglePersonsHandler } > Toggle Persons</button>
