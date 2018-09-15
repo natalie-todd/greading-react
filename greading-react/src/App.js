@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-class App extends Component {
+class App extends Component { 
   state = {
     persons: [
       { id: 'asdfa', name: 'Max', age: 28 },
@@ -10,37 +10,32 @@ class App extends Component {
       { id: 'tgted', name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
-    showPersons: false
-  }
-
-  switchNameHandler = (newName) => {
-    // console.log('Was clicked!');
-    // BAD BAD BAD this.state.persons[0].name = 'Maximilian';
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    })
+    showPersons: false 
   }
 
   nameChangedHandler = (event, id) => {
-    const person = this.state
-    this.setState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    })
+// set variable personsIndex to the ids of state
+    const personsIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+//set variable person to personsIndices
+    const person = {
+      ...this.state.persons[personsIndex]
+    };
+//name portion of state will equal event.target.value
+    person.name = event.target.value;
+//persons will equal entire state object and the index of persons = person
+    const persons = [...this.state.persons];
+    persons[personsIndex] = person;
+//set the state so persons is the new object in state
+    this.setState({ persons: persons })
   }
 
-  deletePersonHandler = (personIndex) => {
+  deletePersonHandler = (personsIndex) => {
     const persons = [...this.state.persons];
     //Splice is not best practice. It can lead to unpredictability.
-    persons.splice(personIndex, 1);
-    this.setState({persons: persons})
+    persons.splice(personsIndex, 1);
+    this.setState({persons: persons});
   }
 
   togglePersonsHandler = () => {
@@ -78,7 +73,6 @@ class App extends Component {
       <div className = 'App' >
       <h1>Hi, I'm a React App</h1>
       <p>This is really working!</p>
-        {/* example of alternative to bind sytax - not as good as bind */ }
         <button
           style = { style }
           onClick = { this.togglePersonsHandler } > Toggle Persons</button>
